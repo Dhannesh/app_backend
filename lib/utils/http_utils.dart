@@ -9,8 +9,9 @@ class HttpUtils {
   static const JsonDecoder decoder = JsonDecoder();
   static const JsonEncoder encoder = JsonEncoder.withIndent(' ');
 
-  static Future<Product> getProduct() async {
-    String productUri = "$baseProductUri/${Random().nextInt(19) + 1}";
+  static Future<Product> getProduct(String productId) async {
+    // String productUri = "$baseProductUri/${Random().nextInt(19) + 1}";
+    String productUri = "$baseProductUri/$productId";
     var response = await http.get(Uri.parse(productUri));
     if(response.statusCode == 200){
       // var object = decoder.convert(response.body);

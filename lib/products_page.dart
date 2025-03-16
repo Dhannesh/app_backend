@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:app_backend/product_details.dart';
 import 'package:app_backend/utils/http_utils.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,7 @@ class _ProductsPageState extends State<ProductsPage> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
             padding: EdgeInsets.all(12.0),
@@ -25,10 +28,10 @@ class _ProductsPageState extends State<ProductsPage> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8))),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ProductDetails()));
+                  Navigator.pushNamed(
+                      context,'/products',
+                    arguments: {'product_id': '${Random().nextInt(19) + 1}'}
+                      );
                 },
                 child: Padding(
                     padding: EdgeInsets.all(14.0),
@@ -38,14 +41,7 @@ class _ProductsPageState extends State<ProductsPage> {
                     )),
               ),
             )),
-        Expanded(
-            child: Padding(
-          padding: EdgeInsets.all(12.0),
-          child: Text(
-            productInfoResult,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-          ),
-        ))
+
       ],
     );
   }

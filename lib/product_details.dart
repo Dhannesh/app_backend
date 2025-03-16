@@ -12,14 +12,17 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   late Future<Product> productFuture;
-  @override
-  void initState() {
-    super.initState();
-    productFuture = HttpUtils.getProduct();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   productFuture = HttpUtils.getProduct();
+  // }
 
   @override
   Widget build(BuildContext context) {
+    var arguments = ModalRoute.of(context)?.settings.arguments as Map;
+    var productId = arguments['product_id'] as String;
+    productFuture = HttpUtils.getProduct(productId);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Product Details"),

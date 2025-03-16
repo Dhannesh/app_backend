@@ -1,3 +1,4 @@
+import 'package:app_backend/product_details.dart';
 import 'package:app_backend/products_page.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
         ),
         body: const ProductsPage(),
       ),
+      routes: {
+        '/products':(context)=> const ProductDetails()
+      },
     );
   }
 }
