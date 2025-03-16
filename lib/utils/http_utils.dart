@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -27,10 +28,16 @@ class HttpUtils {
   static Future<List<Product>> getProducts () async{
     var response = await http.get(Uri.parse(baseProductUri));
     if(response.statusCode == 200) {
-      final parsed = jsonDecode(response.body).cast<Map<String, dynamic>>();
-      return parsed.map<Product>((json) => Product.fromJson(json)).toList();
+     return compute(parseProducts, response.body);
     }else{
       throw Exception("Failed to load");
     }
   }
+
+  static List<Product> parseProducts(String responseBody)
+  {
+    final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<Product>((json) => Product.fromJson(json)).toList();
+  }
+
 }
