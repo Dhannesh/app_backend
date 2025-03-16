@@ -14,8 +14,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Insta Store',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+      primarySwatch: Colors.red,
+        fontFamily: 'Raleway'
       ),
       home: Scaffold(
         appBar: AppBar(
