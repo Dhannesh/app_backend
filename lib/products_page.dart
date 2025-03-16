@@ -14,7 +14,28 @@ class ProductsPage extends StatefulWidget {
 }
 
 class _ProductsPageState extends State<ProductsPage> {
+  var searchBoolean = false;
+  var productCategory = "";
   late Future<List<Product>> productsFuture;
+  Widget _searchTextField() {
+    return TextField(
+        onSubmitted: (value) {
+          setState(() {
+            productCategory = value;
+          });
+        },
+        autofocus: true,
+        cursorColor: Colors.white,
+        style: const TextStyle(color: Colors.white, fontSize: 20),
+        textInputAction: TextInputAction.search,
+        decoration: const InputDecoration(
+            enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white)),
+            focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white)),
+            hintText: 'Search',
+            hintStyle: TextStyle(color: Colors.white60, fontSize: 20)));
+  }
 
   @override
   void initState() {
@@ -24,9 +45,34 @@ class _ProductsPageState extends State<ProductsPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (productCategory.isEmpty) {
+      productsFuture = HttpUtils.getProducts();
+    } else {
+      productsFuture = HttpUtils.getProductsForCategory(productCategory);
+    }
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Insta Store'),
+        title: !searchBoolean ? const Text('Insta Store') : _searchTextField(),
+        actions: !searchBoolean
+            ? [
+                IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      setState(() {
+                        searchBoolean = true;
+                      });
+                    })
+              ]
+            : [
+                IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      setState(() {
+                        searchBoolean = false;
+                        productCategory = "";
+                      });
+                    })
+              ],
         backgroundColor: Colors.red,
         foregroundColor: Colors.white,
       ),
