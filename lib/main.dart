@@ -19,11 +19,6 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Raleway'
       ),
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Insta Store"),
-          backgroundColor: Colors.red,
-          foregroundColor: Colors.white,
-        ),
         body: const ProductsPage(),
       ),
       routes: {

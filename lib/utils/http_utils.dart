@@ -24,4 +24,13 @@ class HttpUtils {
       }
   }
 
+  static Future<List<Product>> getProducts () async{
+    var response = await http.get(Uri.parse(baseProductUri));
+    if(response.statusCode == 200) {
+      final parsed = jsonDecode(response.body).cast<Map<String, dynamic>>();
+      return parsed.map<Product>((json) => Product.fromJson(json)).toList();
+    }else{
+      throw Exception("Failed to load");
+    }
+  }
 }

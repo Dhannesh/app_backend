@@ -4,6 +4,8 @@ import 'package:app_backend/product_details.dart';
 import 'package:app_backend/utils/http_utils.dart';
 import 'package:flutter/material.dart';
 
+import 'models/product.dart';
+
 class ProductsPage extends StatefulWidget {
   const ProductsPage({super.key});
 
@@ -12,37 +14,55 @@ class ProductsPage extends StatefulWidget {
 }
 
 class _ProductsPageState extends State<ProductsPage> {
-  String productInfoResult = "No prouct details yet";
+  late Future<List<Product>> productsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    productsFuture = HttpUtils.getProducts();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-            padding: EdgeInsets.all(12.0),
-            child: Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    elevation: 12,
-                    backgroundColor: Colors.red,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8))),
-                onPressed: () {
-                  Navigator.pushNamed(
-                      context,'/products',
-                    arguments: {'product_id': '${Random().nextInt(19) + 1}'}
-                      );
-                },
-                child: Padding(
-                    padding: EdgeInsets.all(14.0),
-                    child: Text(
-                      'Fetch Product Details',
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                    )),
-              ),
-            )),
-
-      ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Insta Store'),
+        backgroundColor: Colors.red,
+        foregroundColor: Colors.white,
+      ),
+      body: Center(
+        child: FutureBuilder(
+            future: productsFuture,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, '/products', arguments: {
+                              'product_id': snapshot.data![index].id.toString()
+                            });
+                          },
+                          child: Image.network(snapshot.data![index].image),
+                        );
+                      }),
+                );
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              } else {
+                return const CircularProgressIndicator();
+              }
+            }),
+      ),
     );
   }
 }
