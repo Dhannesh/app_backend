@@ -1,3 +1,4 @@
+import 'package:app_backend/products_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,12 +12,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Insta Store',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const Text('Flutter Demo Home Page'),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text("Insta Store"),
+          backgroundColor: Colors.red,
+          foregroundColor: Colors.white,
+        ),
+        body: const ProductsPage(),
+      ),
     );
   }
 }
