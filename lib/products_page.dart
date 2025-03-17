@@ -62,17 +62,30 @@ class _ProductsPageState extends State<ProductsPage> {
                         searchBoolean = true;
                       });
                     }),
-          IconButton(
-              onPressed: (){
-                var randomProduct = SampleProducts.getRandomProduct();
-                if(randomProduct != null){
-                 productsFuture = HttpUtils.addProduct(randomProduct);
-                 setState(() {
-                 });
-                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Product added")));
-                }
-              },
-              icon: Icon(Icons.add))
+                IconButton(
+                    onPressed: () {
+                      var randomProduct = SampleProducts.getRandomProduct();
+                      if (randomProduct != null) {
+                        productsFuture = HttpUtils.addProduct(randomProduct);
+                        setState(() {});
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("Product added")));
+                      }
+                    },
+                    icon: Icon(Icons.add)),
+                IconButton(
+                    onPressed: () {
+                      if (selectedIds.isNotEmpty) {
+                        productsFuture = HttpUtils.deleteProducts(selectedIds);
+                        selectedIds.clear();
+                        setState(() {});
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text("Product(s) deleted")));
+                      }
+                      ;
+                    },
+                    icon: const Icon(Icons.delete))
               ]
             : [
                 IconButton(

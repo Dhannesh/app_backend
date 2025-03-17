@@ -62,4 +62,15 @@ class HttpUtils {
     }
   }
 
+  static Future<List<Product>> deleteProducts(List<int> productIds) async{
+    final url = Uri.parse(baseProductUri);
+    final headers = {"content-type":"application/json"};
+    final res = await http.delete(url, headers: headers, body: json.encode(productIds));
+    if(res.statusCode == 200){
+      return compute(parseProducts, res.body);
+    }else{
+      throw Exception("Failed to delete product");
+    }
+  }
+
 }
