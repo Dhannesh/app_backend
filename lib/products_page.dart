@@ -1,5 +1,6 @@
 import 'package:app_backend/product_item.dart';
 import 'package:app_backend/utils/http_utils.dart';
+import 'package:app_backend/utils/sample_products.dart';
 import 'package:flutter/material.dart';
 
 import 'models/product.dart';
@@ -60,7 +61,18 @@ class _ProductsPageState extends State<ProductsPage> {
                       setState(() {
                         searchBoolean = true;
                       });
-                    })
+                    }),
+          IconButton(
+              onPressed: (){
+                var randomProduct = SampleProducts.getRandomProduct();
+                if(randomProduct != null){
+                 productsFuture = HttpUtils.addProduct(randomProduct);
+                 setState(() {
+                 });
+                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Product added")));
+                }
+              },
+              icon: Icon(Icons.add))
               ]
             : [
                 IconButton(

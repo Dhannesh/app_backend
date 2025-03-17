@@ -51,4 +51,15 @@ class HttpUtils {
     return parsed.map<Product>((json) => Product.fromJson(json)).toList();
   }
 
+  static Future<List<Product>> addProduct(Map<String, dynamic> product) async{
+    final url = Uri.parse(baseProductUri);
+    final headers = {"content-type":"application/json"};
+    final res = await http.post(url, headers: headers, body: json.encode(product));
+    if(res.statusCode == 200){
+      return compute(parseProducts, res.body);
+    }else{
+      throw Exception("Failed to add product");
+    }
+  }
+
 }
