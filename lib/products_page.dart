@@ -83,9 +83,20 @@ class _ProductsPageState extends State<ProductsPage> {
                             const SnackBar(
                                 content: Text("Product(s) deleted")));
                       }
-                      ;
                     },
-                    icon: const Icon(Icons.delete))
+                    icon: const Icon(Icons.delete)),
+          IconButton(
+              onPressed: () {
+                if (selectedIds.isNotEmpty) {
+                  productsFuture = HttpUtils.updateProducts(selectedIds);
+                  selectedIds.clear();
+                  setState(() {});
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text("Product prices(s) updated")));
+                }
+              },
+              icon: const Icon(Icons.edit))
               ]
             : [
                 IconButton(

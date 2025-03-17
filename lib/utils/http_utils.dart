@@ -69,7 +69,18 @@ class HttpUtils {
     if(res.statusCode == 200){
       return compute(parseProducts, res.body);
     }else{
-      throw Exception("Failed to delete product");
+      throw Exception("Failed to delete product(s)");
+    }
+  }
+
+  static Future<List<Product>> updateProducts(List<int> productIds) async{
+    final url = Uri.parse(baseProductUri);
+    final headers = {"content-type":"application/json"};
+    final res = await http.put(url, headers: headers, body: json.encode(productIds));
+    if(res.statusCode == 200){
+      return compute(parseProducts, res.body);
+    }else{
+      throw Exception("Failed to update product(s)");
     }
   }
 
