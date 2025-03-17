@@ -6,7 +6,8 @@ import 'dart:convert';
 import '../models/product.dart';
 
 class HttpUtils {
-  static const String baseProductUri = "https://fakestoreapi.com/products";
+  // static const String baseProductUri = "https://fakestoreapi.com/products";
+  static const String baseProductUri = "http://192.168.1.5:4040/";
   static const JsonDecoder decoder = JsonDecoder();
   static const JsonEncoder encoder = JsonEncoder.withIndent(' ');
 

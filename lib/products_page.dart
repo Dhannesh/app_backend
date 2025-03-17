@@ -1,6 +1,4 @@
-import 'dart:math';
-
-import 'package:app_backend/product_details.dart';
+import 'package:app_backend/product_item.dart';
 import 'package:app_backend/utils/http_utils.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +15,7 @@ class _ProductsPageState extends State<ProductsPage> {
   var searchBoolean = false;
   var productCategory = "";
   late Future<List<Product>> productsFuture;
+  List<int> selectedIds = [];
   Widget _searchTextField() {
     return TextField(
         onSubmitted: (value) {
@@ -91,15 +90,19 @@ class _ProductsPageState extends State<ProductsPage> {
                               mainAxisSpacing: 10),
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, '/products', arguments: {
-                              'product_id': snapshot.data![index].id.toString()
+                        return ProductItem(
+                            product: snapshot.data![index],
+                            isSelected:
+                                selectedIds.contains(snapshot.data![index].id),
+                            productItemSelectedStateChanged: (bool value) {
+                              setState(() {
+                                if (value) {
+                                  selectedIds.add(snapshot.data![index].id);
+                                } else {
+                                  selectedIds.remove(snapshot.data![index].id);
+                                }
+                              });
                             });
-                          },
-                          child: Image.network(snapshot.data![index].image),
-                        );
                       }),
                 );
               } else if (snapshot.hasError) {
